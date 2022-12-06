@@ -1,0 +1,67 @@
+name: Run Build, Check App Health and lint
+on: [pull_request]
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - uses: actions/checkout@v3
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('**/package.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install
+
+  lint:
+    if: github.actor != 'dependabot[bot]'
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('**/package.json') }}
+      - name: Lint
+        run: npm run lint
+
+  build-run:
+    needs: lint
+    runs-on: ubuntu-latest
+    env:
+      APP_ENV: development
+      APP_PORT: 5000
+      APP_SECRET: ${{ secrets.WEB_API_FAKE_APP_SECRET }}
+      THROTTLER_TTL: 1
+      THROTTLER_LIMIT: 5
+      MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+      MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
+      MYSQL_USER: ${{ secrets.MYSQL_USER }}
+      MYSQL_PASS: ${{ secrets.MYSQL_PASS }}
+      MYSQL_DB_NAME: ${{ secrets.MYSQL_DB_NAME }}
+      MYQSL_DOCKER_HOST: ${{ secrets.MYSQL_DOCKER_HOST }}
+      MYSQL_DOCKER_PORT: ${{ secrets.MYSQL_DOCKER_PORT }}
+      TYPEORM_SYNCHRONIZE: 1
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Build the docker-compose stack
+        run: docker-compose -f docker-compose-git.yml up -d --build
+      - name: Sleep for 30 seconds
+        run: sleep 30s
+        shell: bash
+      - name: Check Application
+        run: |
+          curl --request GET \
+          --header 'content-type: application/json' \
+          --url http://localhost:5000/v1/health \

@@ -1,0 +1,45 @@
+services:
+  mysql:
+    image: mysql:5.7
+    hostname: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASS}
+      - MYSQL_DATABASE=${MYSQL_DB_NAME}
+    ports:
+      - '4306:3306'
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - overchain-network
+
+  overchain-web-api:
+    container_name: overchain-web-api
+    image: overchain-web-api:${APP_ENV}
+    depends_on:
+      - mysql
+    ports:
+      - '5000:5000'
+    environment:
+      - APP_ENV=${APP_ENV}
+      - APP_SECRET=${APP_SECRET}
+      - APP_PORT=${APP_PORT}
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASS=${MYSQL_PASS}
+      - MYSQL_DB_NAME=${MYSQL_DB_NAME}
+      - TYPEORM_SYNCHRONIZE=${TYPEORM_SYNCHRONIZE}
+      - THROTTLER_TTL=${THROTTLER_TTL}
+      - THROTTLER_LIMIT=${THROTTLER_LIMIT}
+    build:
+      context: .
+      target: ${APP_ENV}
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/usr/overchain-api/src
+    networks:
+      - overchain-network
+
+networks:
+  overchain-network:
+    driver: bridge

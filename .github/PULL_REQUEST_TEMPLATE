@@ -1,0 +1,26 @@
+## Porque?
+
+Escreva uma descrição do problema que estamos resolvendo aqui. Esta descrição pode conter:
+
+- Mencionar problemas de usuários
+- Links (Jira, Kanbanize, Figma, Miro...)
+
+## O que foi feito?
+
+Descreva como o problema anterior foi resolvido e/ou o que mais foi feito.
+
+- [ ] Tarefa 1:
+  - [ ] Tarefa 1.1;
+  - [ ] Tarefa 1.2;
+- [ ] Tarefa 2.
+
+## Comentários
+
+Informação adicional.
+
+- Você precisa falar com alguém
+- Precisamos analisar X e Y, porque Z
+
+## Testes
+
+Descreva como você testou suas alterações (teste unitário, teste de integração, localmente)

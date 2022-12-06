@@ -1,0 +1,28 @@
+services:
+  mysql:
+    image: mysql:5.7
+    hostname: mysql
+    ports:
+      - '4306:3306'
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - overchain-network
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - overchain-network
+
+  jenkins:
+    image: jenkins/jenkins
+    ports:
+      - 3030:3030
+    networks:
+      - overchain-network
+      
+networks:
+  overchain-network:
+    driver: bridge

@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "baseUrl": "./src",
+    "outDir": "./dist",
+    "paths": {
+      "@controllers/*": ["controllers/*"],
+      "@decorators/*": ["decorators/*"],
+      "@dtos/*": ["domain/dtos/*"],
+      "@entities/*": ["domain/entities/*"],
+      "@enums/*": ["domain/enums/*"],
+      "@interfaces/*": ["domain/interfaces/*"],
+      "@useCases/*": ["domain/useCases/*"],
+      "@exceptions/*": ["exceptions/*"],
+      "@interceptors/*": ["interceptors/*"],
+      "@infra/*": ["infra/*"],
+      "@modules/*": ["modules/*"],
+      "@databases/*": ["infra/databases/*"],
+      "@middlewares/*": ["infra/http/middlewares/*"],
+      "@utils/*": ["infra/utils/*"],
+      "@emails/*": ["infra/emails/*"]
+    }
+  }
+}
