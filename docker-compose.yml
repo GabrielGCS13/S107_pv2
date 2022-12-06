@@ -15,13 +15,12 @@ services:
       - 8080:8080
     networks:
       - overchain-network
-
-  jenkins:
-    image: jenkins/jenkins
+  
+  gabrielgcs:
+    image: gabrielgcs/dockerhub:questao1
     ports:
       - 3030:3030
-    networks:
-      - overchain-network
+      - 50000:50000
       
 networks:
   overchain-network:
