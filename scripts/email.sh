@@ -1,0 +1,1 @@
+echo "Mandando email de confirmacao do pipeline" | mail -s "subject: Pipeline rodado com sucesso" ${EMAIL}
